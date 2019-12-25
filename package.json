@@ -2,9 +2,13 @@
   "name": "gendiff-gabitov",
   "version": "0.0.1",
   "description": "generate difference between two files",
+  "bin": {
+    "gendiff": "dist/bin/index.js"
+  },
   "main": "index.js",
   "scripts": {
-    "test": "test",
+    "test": "jest",
+    "lint": "eslint .",
     "build": "NODE_ENV=production babel src --out-dir dist --source-maps inline",
     "prepublishOnly": "npm run build"
   },
@@ -18,6 +22,8 @@
     "eslint": "^6.1.0",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-plugin-babel": "^5.3.0",
-    "eslint-plugin-import": "^2.18.2"
+    "eslint-plugin-import": "^2.18.2",
+    "babel-jest": "^24.9.0",
+    "jest": "^24.9.0"
   }
 }
