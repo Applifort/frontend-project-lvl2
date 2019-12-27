@@ -1,24 +1,14 @@
-import getDiff from '../src';
+import getObjectsDiff from '../src';
+import data from './__fixtures__/testData';
 
-test('getDiff', () => {
-  const firstConfig = {
-    host: 'hexlet.io',
-    timeout: 50,
-    proxy: '123.234.53.22',
-    follow: false,
-  };
-  const secondConfig = {
-    timeout: 20,
-    verbose: true,
-    host: 'hexlet.io',
-  };
-  const result = {
-    '  host': 'hexlet.io',
-    '+ timeout': 50,
-    '- timeout': 20,
-    '- proxy': '123.234.53.22',
-    '- follow': false,
-    '+ verbose': true,
-  };
-  expect(getDiff(firstConfig, secondConfig)).toEqual(result);
+test('getObjectsDiff', () => {
+  const firstConfig = data[0];
+  const secondConfig = data[1];
+  const empty = data[2];
+  const result = data[3];
+  const result2 = data[4];
+
+  expect(getObjectsDiff(firstConfig, secondConfig)).toEqual(result);
+  expect(getObjectsDiff(empty, secondConfig)).toEqual(result2);
+  expect(typeof (getObjectsDiff(firstConfig, secondConfig))).toBe('string');
 });
