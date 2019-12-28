@@ -1,9 +1,7 @@
 import getObjectsDiff from '../src';
 import genDiff from '../src/modul/compare-files';
-import bin from '../src/bin/gendiff';
 import data from './__fixtures__/testData';
 
-const fs = require('fs');
 
 test('getObjectsDiff', () => {
   const firstConfig = data[0];
