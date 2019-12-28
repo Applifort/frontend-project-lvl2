@@ -8,3 +8,5 @@ lint:
 	npx eslint .
 test:
 	npm test
+test-cov:
+	npm test -- --coverage
