@@ -12,6 +12,9 @@
     "build": "NODE_ENV=production babel src --out-dir dist --source-maps inline",
     "prepublishOnly": "npm run build"
   },
+  "jest": {
+    "collectCoverage": true
+  },
   "author": "Gabitov Artur",
   "license": "MIT",
   "repository": {

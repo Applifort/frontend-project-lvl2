@@ -9,4 +9,4 @@ lint:
 test:
 	npm test
 test-cov:
-	npm test -- --coverage
+	npm test --coverage

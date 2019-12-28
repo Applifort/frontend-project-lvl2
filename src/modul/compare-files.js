@@ -7,7 +7,7 @@ const openFiles = (firstFilePath, secondFilePath) => {
   const firstJSONConfig = fs.readFileSync(firstFilePath, 'utf8');
   const secondSJONconfig = fs.readFileSync(secondFilePath, 'utf8');
   const result = genDiff(JSON.parse(firstJSONConfig), JSON.parse(secondSJONconfig));
-  console.log(result);
+  return result;
 };
 
 export default openFiles;
