@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import compare from '../modul/compare-files';
+import compare from '..';
 
 const program = require('commander');
 
