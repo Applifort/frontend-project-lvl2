@@ -104,7 +104,6 @@ const data = {
   diff2,
   diff3,
   diffPlain,
-  diffJson,
 };
 
 export default data;
