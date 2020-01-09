@@ -9,7 +9,8 @@ program
   .arguments('<firstConfig> <secondConfig>')
   .option('-f, --format <type>', 'output format')
   .action((firstConfig, secondConfig) => {
-    compare(firstConfig, secondConfig);
+    const format = program.format ? program.format : 'default';
+    compare(firstConfig, secondConfig, format);
   });
 
 program.parse(process.argv);

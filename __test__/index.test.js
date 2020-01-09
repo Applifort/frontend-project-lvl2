@@ -13,4 +13,7 @@ test('getDiff', () => {
   expect(genDiff(firstIni, secondIni)).toEqual(data.diff1);
   expect(typeof (genDiff(firstJSON, secondJSON))).toBe('string');
   expect(() => genDiff('wrong.jso', 'wrong2.js')).toThrow();
+
+  const format = 'plain';
+  expect(genDiff(firstJSON, secondJSON, format)).toEqual(data.diffPlain);
 });
