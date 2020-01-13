@@ -38,7 +38,7 @@ const getTypeMapper = (firstConfig, secondConfig, key) => typeMapper.find(
   ({ check }) => check(firstConfig, secondConfig, key),
 );
 
-const parse = (firstConfig, secondConfig) => {
+const parse = (firstConfig = {}, secondConfig = {}) => {
   const firstConfigKeys = keys(firstConfig);
   const filteredSecondConfigKeys = keys(secondConfig).filter(
     (el) => firstConfigKeys.indexOf(el) === -1,
