@@ -17,5 +17,5 @@ const mapper = {
 export default (ast) => {
   const iter = (tree, iAcc, path) => tree
     .reduce((acc, node) => [...acc, ...mapper[node.type](node, path, iter)], iAcc);
-  return ['', ...iter(ast, [], ''), ''].join('\n');
+  return iter(ast, [], '').join('\n');
 };

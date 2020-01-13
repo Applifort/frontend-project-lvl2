@@ -5,16 +5,17 @@ import defaultRender from './default';
 import plainRender from './plain';
 import jsonRender from './json';
 
-const formatSelect = {
+const renders = {
   default: defaultRender,
   plain: plainRender,
   json: jsonRender,
 };
 
 export default (format, ast) => {
-  if (!has(formatSelect, format)) {
+  if (!has(renders, format)) {
     throw new Error(`Неподдерживаемый формат вывода - ${format}
-    Поддерживаемые форматы вывода: JSON, plain, default`);
+    Поддерживаемые форматы вывода: json, plain, default`);
   }
-  return formatSelect[format](ast);
+  const render = renders[format];
+  return render(ast);
 };
