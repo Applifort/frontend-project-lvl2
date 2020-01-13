@@ -6,10 +6,11 @@ const flatten = (value) => {
 };
 
 const mapper = {
-  group: ({ key, children }, path, fn) => fn(children, [], path === '' ? key : path.concat(`.${key}`)),
-  added: ({ key, after }, path) => [`Property '${path === '' ? key : path.concat(`.${key}`)}' was added with value: ${flatten(after)}`],
-  removed: ({ key }, path) => [`Property '${path === '' ? key : path.concat(`.${key}`)}' was removed`],
-  changed: ({ key, before, after }, path) => [`Property '${path === '' ? key : path.concat(`.${key}`)}' was updated. From ${flatten(before)} to ${flatten(after)}`],
+  group: ({ name, value }, path, fn) => fn(value, [], path === '' ? name : path.concat(`.${name}`)),
+  added: ({ name, value }, path) => [`Property '${path === '' ? name : path.concat(`.${name}`)}' was added with value: ${flatten(value)}`],
+  removed: ({ name }, path) => [`Property '${path === '' ? name : path.concat(`.${name}`)}' was removed`],
+  changed: ({ name, value }, path) => [`Property '${path === ''
+    ? name : path.concat(`.${name}`)}' was updated. From ${flatten(value.oldValue)} to ${flatten(value.newValue)}`],
   unchanged: () => [],
 };
 

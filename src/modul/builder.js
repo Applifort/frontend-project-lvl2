@@ -1,49 +1,42 @@
 #!/usr/bin/env node
 
-import { has, keys, identity } from 'lodash';
-
-const singleBuild = (type, key, firstConfigValue, secondConfigValue) => ({
-  key, type, before: firstConfigValue, after: secondConfigValue,
-});
-
-const groupBuild = (...rest) => ({
-  key: rest[1], type: rest[0], children: rest[4],
-});
+import { has, keys } from 'lodash';
 
 const typeMapper = [
   {
     type: 'group',
-    check: (first, second) => typeof first === 'object' && typeof second === 'object',
-    process: (fn, firstValue, secondValue) => fn(firstValue, secondValue),
-    build: groupBuild,
+    check: (first, second, key) => typeof first[key] === 'object' && typeof second[key] === 'object',
+    process: ({
+      firstConfig, secondConfig, key, parse,
+    }) => parse(firstConfig[key], secondConfig[key]),
   },
   {
     type: 'unchanged',
-    check: (first, second) => first === second,
-    process: identity,
-    build: singleBuild,
+    check: (first, second, key) => has(first, key)
+      && has(second, key) && first[key] === second[key],
+    process: ({ firstConfig, key }) => firstConfig[key],
   },
   {
     type: 'changed',
-    check: (first, second) => first !== 'ABSENT_' && second !== 'ABSENT_',
-    process: identity,
-    build: singleBuild,
+    check: (first, second, key) => has(first, key) && has(second, key),
+    process: ({ firstConfig, secondConfig, key }) => (
+      { oldValue: firstConfig[key], newValue: secondConfig[key] }),
   },
   {
     type: 'added',
-    check: (...values) => values[0] === 'ABSENT_',
-    process: identity,
-    build: singleBuild,
+    check: (first, second, key) => !has(first, key) && has(second, key),
+    process: ({ secondConfig, key }) => secondConfig[key],
   },
   {
     type: 'removed',
-    check: (...values) => values[1] === 'ABSENT_',
-    process: identity,
-    build: singleBuild,
+    check: (first, second, key) => has(first, key) && !has(second, key),
+    process: ({ firstConfig, key }) => firstConfig[key],
   },
 ];
 
-const getTypeMapper = (first, second) => typeMapper.find(({ check }) => check(first, second));
+const getTypeMapper = (firstConfig, secondConfig, key) => typeMapper.find(
+  ({ check }) => check(firstConfig, secondConfig, key),
+);
 
 const parse = (firstConfig, secondConfig) => {
   const firstConfigKeys = keys(firstConfig);
@@ -52,11 +45,11 @@ const parse = (firstConfig, secondConfig) => {
   );
   const configsKeys = firstConfigKeys.concat(filteredSecondConfigKeys).sort();
   const ast = configsKeys.reduce((acc, key) => {
-    const firstConfigValue = has(firstConfig, key) ? firstConfig[key] : 'ABSENT_';
-    const secondConfigValue = has(secondConfig, key) ? secondConfig[key] : 'ABSENT_';
-    const { type, process, build } = getTypeMapper(firstConfigValue, secondConfigValue);
-    const children = process(parse, firstConfigValue, secondConfigValue);
-    return [...acc, build(type, key, firstConfigValue, secondConfigValue, children)];
+    const { type, process } = getTypeMapper(firstConfig, secondConfig, key);
+    const value = process({
+      firstConfig, secondConfig, key, parse,
+    });
+    return [...acc, { name: key, type, value }];
   }, []);
   return ast;
 };

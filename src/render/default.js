@@ -14,14 +14,14 @@ const stringify = (lastElement, data, depth) => {
 };
 
 const mapper = {
-  group: ({ key, children }, prefix, depth, fn) => [`${prefix}${empty}${key}: {`, ...fn(children, [], depth + 1), `${prefix}${empty}}`],
-  added: ({ key, after }, prefix, depth) => stringify(`${prefix}${plus}${key}: `, after, depth),
-  removed: ({ key, before }, prefix, depth) => stringify(`${prefix}${minus}${key}: `, before, depth),
-  changed: ({ key, before, after }, prefix, depth) => [
-    ...stringify(`${prefix}${minus}${key}: `, before, depth),
-    ...stringify(`${prefix}${plus}${key}: `, after, depth),
+  group: ({ name, value }, prefix, depth, fn) => [`${prefix}${empty}${name}: {`, ...fn(value, [], depth + 1), `${prefix}${empty}}`],
+  added: ({ name, value }, prefix, depth) => stringify(`${prefix}${plus}${name}: `, value, depth),
+  removed: ({ name, value }, prefix, depth) => stringify(`${prefix}${minus}${name}: `, value, depth),
+  changed: ({ name, value }, prefix, depth) => [
+    ...stringify(`${prefix}${minus}${name}: `, value.oldValue, depth),
+    ...stringify(`${prefix}${plus}${name}: `, value.newValue, depth),
   ],
-  unchanged: ({ key, after }, prefix) => [`${prefix}${empty}${key}: ${after}`],
+  unchanged: ({ name, value }, prefix) => [`${prefix}${empty}${name}: ${value}`],
 };
 
 export default (ast) => {
