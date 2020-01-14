@@ -17,6 +17,7 @@ test.each([
   ['before.json', 'after.json', 'plain'],
   ['before.yaml', 'after.yaml', 'plain'],
   ['before.ini', 'after.ini', 'plain'],
+  ['before.ini', 'after.ini', 'json'],
 ])('get difference between %s and %s in %s format', (before, after, format) => {
   const firstConfig = makePath(before);
   const secondConfig = makePath(after);
