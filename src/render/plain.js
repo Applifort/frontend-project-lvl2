@@ -5,10 +5,12 @@ const flatten = (value) => {
   return typeof value === 'boolean' ? value : `'${value}'`;
 };
 
+const fullPath = (path, current) => (path === '' ? current : path.concat(`.${current}`));
+
 const mapper = {
-  group: ({ name, value }, path, fn) => fn(value, [], path === '' ? name : path.concat(`.${name}`)),
-  added: ({ name, value }, path) => [`Property '${path === '' ? name : path.concat(`.${name}`)}' was added with value: ${flatten(value)}`],
-  removed: ({ name }, path) => [`Property '${path === '' ? name : path.concat(`.${name}`)}' was removed`],
+  group: ({ name, value }, path, fn) => fn(value, [], fullPath(path, name)),
+  added: ({ name, value }, path) => [`Property '${fullPath(path, name)}' was added with value: ${flatten(value)}`],
+  removed: ({ name }, path) => [`Property '${fullPath(path, name)}' was removed`],
   changed: ({ name, value }, path) => [`Property '${path === ''
     ? name : path.concat(`.${name}`)}' was updated. From ${flatten(value.oldValue)} to ${flatten(value.newValue)}`],
   unchanged: () => [],
