@@ -8,6 +8,5 @@ export default (firstFilePath, secondFilePath, format = 'default') => {
   const secondFileContent = fileParse(secondFilePath);
   const ast = build(firstFileContent, secondFileContent);
   const diff = render(format, ast);
-  console.log(diff);
   return diff;
 };

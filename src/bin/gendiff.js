@@ -10,7 +10,8 @@ program
   .option('-f, --format <type>', 'output format')
   .action((firstConfig, secondConfig) => {
     const format = program.format ? program.format : 'default';
-    compare(firstConfig, secondConfig, format);
+    const diff = compare(firstConfig, secondConfig, format);
+    console.log(diff);
   });
 
 program.parse(process.argv);
