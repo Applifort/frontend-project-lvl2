@@ -27,10 +27,7 @@ const mapper = {
 };
 
 export default (ast) => {
-  const iter = (tree, iAcc, depth) => {
-    const prefix = getPrefix(depth);
-    return tree
-      .reduce((acc, node) => [...acc, ...mapper[node.type](node, depth, iter)], iAcc);
-  };
+  const iter = (tree, iAcc, depth) => tree
+    .reduce((acc, node) => [...acc, ...mapper[node.type](node, depth, iter)], iAcc);
   return ['{', ...iter(ast, [], 0), '}'].join('\n');
 };
