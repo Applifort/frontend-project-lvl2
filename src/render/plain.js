@@ -11,8 +11,7 @@ const mapper = {
   group: ({ name, value }, path, fn) => fn(value, [], getFullPath(path, name)),
   added: ({ name, value }, path) => [`Property '${getFullPath(path, name)}' was added with value: ${flatten(value)}`],
   removed: ({ name }, path) => [`Property '${getFullPath(path, name)}' was removed`],
-  changed: ({ name, value }, path) => [`Property '${path === ''
-    ? name : path.concat(`.${name}`)}' was updated. From ${flatten(value.oldValue)} to ${flatten(value.newValue)}`],
+  changed: ({ name, value }, path) => [`Property '${getFullPath(path, name)}' was updated. From ${flatten(value.oldValue)} to ${flatten(value.newValue)}`],
   unchanged: () => [],
 };
 
