@@ -9,7 +9,7 @@ program
   .arguments('<firstConfig> <secondConfig>')
   .option('-f, --format <type>', 'output format')
   .action((firstConfig, secondConfig) => {
-    const format = program.format ? program.format : 'default';
+    const format = program.format ? program.format : 'tree';
     const diff = compare(firstConfig, secondConfig, format);
     console.log(diff);
   });

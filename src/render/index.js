@@ -1,11 +1,10 @@
 import { has } from 'lodash';
-
-import defaultRender from './default';
+import treeRender from './tree';
 import plainRender from './plain';
 import jsonRender from './json';
 
 const renders = {
-  default: defaultRender,
+  tree: treeRender,
   plain: plainRender,
   json: jsonRender,
 };
@@ -13,7 +12,7 @@ const renders = {
 export default (format, ast) => {
   if (!has(renders, format)) {
     throw new Error(`Неподдерживаемый формат вывода - ${format}
-    Поддерживаемые форматы вывода: json, plain, default`);
+    Поддерживаемые форматы вывода: json, plain, tree`);
   }
   const render = renders[format];
   return render(ast);

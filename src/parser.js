@@ -1,9 +1,6 @@
 import { has } from 'lodash';
 import ini from 'ini';
-
-const yaml = require('js-yaml');
-const fs = require('fs');
-const path = require('path');
+import yaml from 'js-yaml';
 
 const format = (content) => Object.entries(content).reduce((acc, [key, value]) => {
   if (typeof value === 'object') return { ...acc, [key]: format(value) };
@@ -14,15 +11,15 @@ const format = (content) => Object.entries(content).reduce((acc, [key, value]) =
 const parsers = {
   json: JSON.parse,
   yaml: yaml.safeLoad,
-  ini: (content) => format(ini.parse(content)),
+  ini: ini.parse,
 };
 
-export default (filePath) => {
-  const type = path.extname(filePath).slice(1);
+export default (content, type) => {
   if (!has(parsers, type)) {
     throw new Error(`Неподдерживаемый формат ${type};
     Поддерживаемые форматы: JSON, yaml, ini`);
   }
-  const content = fs.readFileSync(filePath, 'UTF-8');
-  return parsers[type](content);
+  const parse = parsers[type];
+  const config = parse(content);
+  return type === 'ini' ? format(config) : config;
 };
