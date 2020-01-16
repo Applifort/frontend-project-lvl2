@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 import { has } from 'lodash';
 import ini from 'ini';
 

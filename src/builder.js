@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 import { has, keys } from 'lodash';
 
 const typeMapper = [

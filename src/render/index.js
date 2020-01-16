@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 import { has } from 'lodash';
 
 import defaultRender from './default';

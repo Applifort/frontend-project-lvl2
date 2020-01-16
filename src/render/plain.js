@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 
 const flatten = (value) => {
   if (typeof value === 'object') return '[complex value]';

@@ -1,12 +1,11 @@
-#!/usr/bin/env node
-import fileParse from './modul/parser';
-import build from './modul/builder';
+import parseContent from './parser';
+import build from './builder';
 import render from './render';
 
-export default (firstFilePath, secondFilePath, format = 'default') => {
-  const firstFileContent = fileParse(firstFilePath);
-  const secondFileContent = fileParse(secondFilePath);
-  const ast = build(firstFileContent, secondFileContent);
+export default (firstConfigPath, secondConfigPath, format = 'default') => {
+  const firstConfig = parseContent(firstConfigPath);
+  const secondConfig = parseContent(secondConfigPath);
+  const ast = build(firstConfig, secondConfig);
   const diff = render(format, ast);
   return diff;
 };
