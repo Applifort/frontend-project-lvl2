@@ -11,15 +11,14 @@ const format = (content) => Object.entries(content).reduce((acc, [key, value]) =
 const parsers = {
   json: JSON.parse,
   yaml: yaml.safeLoad,
-  ini: ini.parse,
+  ini: (content) => format(ini.parse(content)),
 };
 
 export default (content, type) => {
   if (!has(parsers, type)) {
-    throw new Error(`Неподдерживаемый формат ${type};
-    Поддерживаемые форматы: JSON, yaml, ini`);
+    throw new Error(`Format - ${type} is NOT supporting;
+    Supporting formats: JSON, yaml, ini`);
   }
   const parse = parsers[type];
-  const config = parse(content);
-  return type === 'ini' ? format(config) : config;
+  return parse(content);
 };

@@ -11,8 +11,8 @@ const renders = {
 
 export default (format, ast) => {
   if (!has(renders, format)) {
-    throw new Error(`Неподдерживаемый формат вывода - ${format}
-    Поддерживаемые форматы вывода: json, plain, tree`);
+    throw new Error(`Unsupporting output format - ${format}
+    Supporting output formats: json, plain, tree`);
   }
   const render = renders[format];
   return render(ast);

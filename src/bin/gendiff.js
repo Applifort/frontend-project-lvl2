@@ -9,7 +9,8 @@ program
   .arguments('<firstConfig> <secondConfig>')
   .option('-f, --format <type>', 'output format')
   .action((firstConfig, secondConfig) => {
-    const diff = compare(firstConfig, secondConfig, program.format);
+    const type = program.format.toLowerCase();
+    const diff = compare(firstConfig, secondConfig, type);
     console.log(diff);
   });
 
