@@ -45,11 +45,11 @@ const union = (firstConfigKeys, secondConfigKeys) => {
   const filteredSecondConfigKeys = secondConfigKeys.filter(
     (el) => firstConfigKeys.indexOf(el) === -1,
   );
-  return firstConfigKeys.concat(filteredSecondConfigKeys).sort();
+  return firstConfigKeys.concat(filteredSecondConfigKeys);
 };
 
 const parse = (firstConfig, secondConfig) => {
-  const configsKeys = union(keys(firstConfig), keys(secondConfig));
+  const configsKeys = union(keys(firstConfig), keys(secondConfig)).sort();
   const ast = configsKeys.map((key) => {
     const { type, process, contain } = getTypeMapper(firstConfig, secondConfig, key);
     const value = process({
