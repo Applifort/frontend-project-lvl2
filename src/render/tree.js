@@ -15,7 +15,7 @@ const stringify = (lastElement, data, depth) => {
 };
 
 const mapper = {
-  group: ({ name, value }, depth, fn) => [`${getPrefix(depth)}${empty}${name}: {`, ...fn(value, [], depth + 1), `${getPrefix(depth)}${empty}}`],
+  group: ({ name, children }, depth, fn) => [`${getPrefix(depth)}${empty}${name}: {`, ...fn(children, [], depth + 1), `${getPrefix(depth)}${empty}}`],
   added: ({ name, value }, depth) => stringify(`${getPrefix(depth)}${plus}${name}: `, value, depth),
   removed: ({ name, value }, depth) => stringify(`${getPrefix(depth)}${minus}${name}: `, value, depth),
   changed: ({ name, value }, depth) => [
