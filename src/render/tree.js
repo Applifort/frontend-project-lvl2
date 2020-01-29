@@ -7,26 +7,27 @@ const empty = '    ';
 const getPrefix = (depth) => seporator.repeat(depth);
 
 const stringify = (lastElement, data, depth) => {
-  if (typeof data !== 'object') return [`${lastElement}${data}`];
+  if (typeof data !== 'object') return `${lastElement}${data}`;
   const prefix = getPrefix(depth + 1);
-  const strings = Object.entries(data).reduce((acc, [key, value]) => [...acc, `${prefix}${empty}${key}: ${value}`], []);
+  const strings = Object.entries(data).map(([key, value]) => `${prefix}${empty}${key}: ${value}`).join('\n');
   const changedLastElement = `${lastElement}{`;
-  return [changedLastElement, ...strings, `${prefix}}`];
+  return `${changedLastElement}\n${strings}\n${prefix}}`;
 };
 
 const mapper = {
-  group: ({ name, children }, depth, fn) => [`${getPrefix(depth)}${empty}${name}: {`, ...fn(children, [], depth + 1), `${getPrefix(depth)}${empty}}`],
+  group: ({ name, children }, depth, fn) => `${getPrefix(depth)}${empty}${name}: {\n${fn(children, depth + 1)}\n${getPrefix(depth)}${empty}}`,
   added: ({ name, value }, depth) => stringify(`${getPrefix(depth)}${plus}${name}: `, value, depth),
   removed: ({ name, value }, depth) => stringify(`${getPrefix(depth)}${minus}${name}: `, value, depth),
-  changed: ({ name, value }, depth) => [
-    ...stringify(`${getPrefix(depth)}${minus}${name}: `, value.oldValue, depth),
-    ...stringify(`${getPrefix(depth)}${plus}${name}: `, value.newValue, depth),
-  ],
-  unchanged: ({ name, value }, depth) => [`${getPrefix(depth)}${empty}${name}: ${value}`],
+  changed: ({ name, value }, depth) => {
+    const prefixOld = `${getPrefix(depth)}${minus}${name}: `;
+    const prefixNew = `${getPrefix(depth)}${plus}${name}: `;
+    return `${stringify(prefixOld, value.oldValue, depth)}\n${stringify(prefixNew, value.newValue, depth)}`;
+  },
+  unchanged: ({ name, value }, depth) => `${getPrefix(depth)}${empty}${name}: ${value}`,
 };
 
 export default (ast) => {
-  const iter = (tree, iAcc, depth) => tree
-    .reduce((acc, node) => [...acc, ...mapper[node.type](node, depth, iter)], iAcc);
-  return ['{', ...iter(ast, [], 0), '}'].join('\n');
+  const iter = (tree, depth) => tree
+    .map((node) => mapper[node.type](node, depth, iter)).join('\n');
+  return `{\n${iter(ast, 0)}\n}`;
 };
