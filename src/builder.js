@@ -38,13 +38,14 @@ const getTypeMapper = (firstConfig, secondConfig, key) => typeMapper.find(
 
 const parse = (firstConfig, secondConfig) => {
   const configsKeys = union(keys(firstConfig), keys(secondConfig)).sort();
-  const ast = configsKeys.map((key) => {
-    const { type, process } = getTypeMapper(firstConfig, secondConfig, key);
-    const value = process({
-      firstConfig, secondConfig, key, parse,
+  const ast = configsKeys
+    .map((key) => {
+      const { type, process } = getTypeMapper(firstConfig, secondConfig, key);
+      const value = process({
+        firstConfig, secondConfig, key, parse,
+      });
+      return { name: key, type, ...value };
     });
-    return { name: key, type, ...value };
-  });
   return ast;
 };
 
