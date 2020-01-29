@@ -35,6 +35,7 @@ const mapper = {
 export default (ast) => {
   const iter = (tree, path) => tree
     .filter((node) => node.type !== 'unchanged')
-    .map((node) => mapper[node.type](node, path, iter)).join('\n');
+    .map((node) => mapper[node.type](node, path, iter))
+    .join('\n');
   return iter(ast, '');
 };
