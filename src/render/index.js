@@ -1,12 +1,11 @@
 import { has } from 'lodash';
 import treeRender from './tree';
 import plainRender from './plain';
-import jsonRender from './json';
 
 const renders = {
   tree: treeRender,
   plain: plainRender,
-  json: jsonRender,
+  json: JSON.stringify,
 };
 
 export default (format, ast) => {
