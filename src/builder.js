@@ -41,10 +41,10 @@ const parse = (firstConfig, secondConfig) => {
   const ast = configsKeys
     .map((key) => {
       const { type, process } = getTypeMapper(firstConfig, secondConfig, key);
-      const value = process({
+      const data = process({
         firstConfig, secondConfig, key, parse,
       });
-      return { name: key, type, ...value };
+      return { name: key, type, ...data };
     });
   return ast;
 };
