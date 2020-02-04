@@ -7,7 +7,7 @@ const makePath = (fileName) => path.join(dir, fileName);
 
 const results = {};
 
-beforeEach(() => {
+beforeAll(() => {
   results.tree = fs.readFileSync(`${dir}tree_result.txt`, 'UTF-8');
   results.plain = fs.readFileSync(`${dir}plain_result.txt`, 'UTF-8');
   results.json = fs.readFileSync(`${dir}json_result.txt`, 'UTF-8');
