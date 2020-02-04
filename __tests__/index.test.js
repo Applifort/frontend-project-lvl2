@@ -1,8 +1,9 @@
 import fs from 'fs';
 import genDiff from '../src';
+import path from 'path';
 
 const dir = '__tests__/__fixtures__/';
-const makePath = (fileName) => `${dir}${fileName}`;
+const makePath = (fileName) => path.join(dir, fileName);
 
 const results = {};
 
