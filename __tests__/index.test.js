@@ -26,17 +26,17 @@ test.each([
 ])('get difference between %s and %s in %s format', (before, after, format) => {
   const firstConfig = makePath(before);
   const secondConfig = makePath(after);
-  const reseived = genDiff(firstConfig, secondConfig, format);
+  const received = genDiff(firstConfig, secondConfig, format);
   const expected = results[format];
-  expect(reseived).toEqual(expected);
+  expect(received).toEqual(expected);
 });
 
 test('get difference without giving format', () => {
   const firstConfig = makePath('before.json');
   const secondConfig = makePath('after.json');
-  const reseived = genDiff(firstConfig, secondConfig);
+  const received = genDiff(firstConfig, secondConfig);
   const expected = results.tree;
-  expect(reseived).toEqual(expected);
+  expect(received).toEqual(expected);
 });
 
 test('Error - incorrect config format', () => {
